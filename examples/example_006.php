@@ -274,7 +274,7 @@ $pdf->writeHTML($html, true, false, true, false, '');
 // add a page
 $pdf->AddPage();
 
-$html = <<<EOF
+$html = <<<'EOF'
 <div style="background-color:#880000;color:white;">
 Hello World!<br />
 Hello
@@ -302,7 +302,7 @@ $pdf->writeHTML($html, true, false, true, false, '');
 // add a page
 $pdf->AddPage();
 
-$html = <<<EOF
+$html = <<<'EOF'
 <h1>Test custom bullet image for list items</h1>
 <ul style="font-size:14pt;list-style-type:img|png|4|4|images/logo_example.png">
 	<li>test custom bullet image</li>

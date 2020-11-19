@@ -77,7 +77,7 @@ $pdf->startPageGroup();
 $pdf->AddPage();
 
 // set some text to print
-$txt = <<<EOD
+$txt = <<<'EOD'
 Example of page groups.
 Check the page numbers on the page footer.
 

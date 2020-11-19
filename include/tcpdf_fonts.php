@@ -514,9 +514,9 @@ class TCPDF_FONTS
                     $fmetric['name'] = preg_replace('/[^a-zA-Z0-9_\-]/', '', $fmetric['name']);
 
                     break;
-                } else {
-                    $offset += 4; // skip String length, String offset
                 }
+
+                $offset += 4; // skip String length, String offset
             }
             if (empty($fmetric['name'])) {
                 $fmetric['name'] = $font_name;
@@ -1655,9 +1655,9 @@ class TCPDF_FONTS
         } elseif ($c <= 0x10FFFF) {
             // four bytes
             return chr(0xF0 | $c >> 18) . chr(0x80 | $c >> 12 & 0x3F) . chr(0x80 | $c >> 6 & 0x3F) . chr(0x80 | $c & 0x3F);
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**
@@ -1987,9 +1987,9 @@ class TCPDF_FONTS
                         // encoding form (as surrogate pairs) and do not directly represent
                         // characters.
                         return 0xFFFD; // use replacement character
-                    } else {
-                        return $char;
                     }
+
+                    return $char;
                 }
             } else {
                 // use replacement character for other invalid sequences

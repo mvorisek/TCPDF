@@ -113,7 +113,7 @@ $pdf->SetFont('times', '', 16);
 $pdf->AddPage();
 
 // set some text to print
-$txt = <<<EOD
+$txt = <<<'EOD'
 Encryption Example
 
 Consult the source code documentation for the SetProtection() method.

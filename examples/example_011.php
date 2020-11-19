@@ -38,7 +38,7 @@ class MYPDF extends TCPDF
         $lines = file($file);
         $data = [];
         foreach ($lines as $line) {
-            $data[] = explode(';', chop($line));
+            $data[] = explode(';', rtrim($line));
         }
 
         return $data;

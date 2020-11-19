@@ -981,13 +981,13 @@ class Datamatrix
                             $enc = $newenc;
 
                             break; // exit from B256 mode
-                        } else {
-                            // 2. Otherwise, process the next character in Base 256 encodation.
-                            $chr = ord($data[$pos]);
-                            ++$pos;
-                            $temp_cw[] = $chr;
-                            ++$field_length;
                         }
+
+                        // 2. Otherwise, process the next character in Base 256 encodation.
+                        $chr = ord($data[$pos]);
+                        ++$pos;
+                        $temp_cw[] = $chr;
+                        ++$field_length;
                     }
                     // set field length
                     if ($field_length <= 249) {

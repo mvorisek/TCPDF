@@ -336,7 +336,7 @@ class TCPDF_STATIC
      */
     public static function getObjFilename($type = 'tmp', $file_id = '')
     {
-        return tempnam(K_PATH_CACHE, '__tcpdf_' . $file_id . '_' . $type . '_' . md5(TCPDF_STATIC::getRandomSeed()) . '_');
+        return tempnam(K_PATH_CACHE, '__tcpdf_' . $file_id . '_' . $type . '_' . md5(self::getRandomSeed()) . '_');
     }
 
     /**
@@ -480,7 +480,7 @@ class TCPDF_STATIC
      */
     public static function getRandomSeed($seed = '')
     {
-        $rnd = uniqid(rand() . microtime(true), true);
+        $rnd = uniqid(mt_rand() . microtime(true), true);
         if (function_exists('posix_getpid')) {
             $rnd .= posix_getpid();
         }
@@ -1426,10 +1426,11 @@ class TCPDF_STATIC
                         if ($attrib[1] == ':') { // pseudo-element
                             // pseudo-elements are not supported!
                             // (::first-line, ::first-letter, ::before, ::after)
-                        } else { // pseudo-class
-                            // pseudo-classes are not supported!
-                            // (:root, :nth-child(n), :nth-last-child(n), :nth-of-type(n), :nth-last-of-type(n), :first-child, :last-child, :first-of-type, :last-of-type, :only-child, :only-of-type, :empty, :link, :visited, :active, :hover, :focus, :target, :lang(fr), :enabled, :disabled, :checked)
                         }
+                        // } else { pseudo-class
+                        // pseudo-classes are not supported!
+                        // (:root, :nth-child(n), :nth-last-child(n), :nth-of-type(n), :nth-last-of-type(n), :first-child, :last-child, :first-of-type, :last-of-type, :only-child, :only-of-type, :empty, :link, :visited, :active, :hover, :focus, :target, :lang(fr), :enabled, :disabled, :checked)
+                        // }
 
                         break;
                 } // end of switch
@@ -1441,43 +1442,43 @@ class TCPDF_STATIC
                     // check remaining selector part
                     $selector = substr($selector, 0, $offset);
                     switch ($operator) {
-                    case ' ':  // descendant of an element
-                        while ($dom[$key]['parent'] > 0) {
-                            if (self::isValidCSSSelectorForTag($dom, $dom[$key]['parent'], $selector)) {
-                                $valid = true;
+                        case ' ':  // descendant of an element
+                            while ($dom[$key]['parent'] > 0) {
+                                if (self::isValidCSSSelectorForTag($dom, $dom[$key]['parent'], $selector)) {
+                                    $valid = true;
 
-                                break;
-                            } else {
+                                    break;
+                                }
+
                                 $key = $dom[$key]['parent'];
                             }
-                        }
 
-                        break;
-                    case '>':  // child of an element
-                        $valid = self::isValidCSSSelectorForTag($dom, $dom[$key]['parent'], $selector);
+                            break;
+                        case '>':  // child of an element
+                            $valid = self::isValidCSSSelectorForTag($dom, $dom[$key]['parent'], $selector);
 
-                        break;
-                    case '+':  // immediately preceded by an element
-                        for ($i = ($key - 1); $i > $dom[$key]['parent']; --$i) {
-                            if ($dom[$i]['tag'] and $dom[$i]['opening']) {
-                                $valid = self::isValidCSSSelectorForTag($dom, $i, $selector);
+                            break;
+                        case '+':  // immediately preceded by an element
+                            for ($i = ($key - 1); $i > $dom[$key]['parent']; --$i) {
+                                if ($dom[$i]['tag'] and $dom[$i]['opening']) {
+                                    $valid = self::isValidCSSSelectorForTag($dom, $i, $selector);
 
-                                break;
-                            }
-                        }
-
-                        break;
-                    case '~':  // preceded by an element
-                        for ($i = ($key - 1); $i > $dom[$key]['parent']; --$i) {
-                            if ($dom[$i]['tag'] and $dom[$i]['opening']) {
-                                if (self::isValidCSSSelectorForTag($dom, $i, $selector)) {
                                     break;
                                 }
                             }
-                        }
 
-                        break;
-                }
+                            break;
+                        case '~':  // preceded by an element
+                            for ($i = ($key - 1); $i > $dom[$key]['parent']; --$i) {
+                                if ($dom[$i]['tag'] and $dom[$i]['opening']) {
+                                    if (self::isValidCSSSelectorForTag($dom, $i, $selector)) {
+                                        break;
+                                    }
+                                }
+                            }
+
+                            break;
+                    }
                 }
             }
         }
@@ -1689,7 +1690,7 @@ class TCPDF_STATIC
         // create new language array of patterns
         $patterns = [];
         foreach ($patterns_array as $val) {
-            if (!TCPDF_STATIC::empty_string($val)) {
+            if (!self::empty_string($val)) {
                 $val = trim($val);
                 $val = str_replace('\'', '\\\'', $val);
                 $key = preg_replace('/[0-9]+/', '', $val);

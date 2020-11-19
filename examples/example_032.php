@@ -72,7 +72,7 @@ $pdf->SetFont('helvetica', '', 12);
 
 $pdf->AddPage();
 
-$html = <<<EOD
+$html = <<<'EOD'
 Example of ImageEPS() method for AI and EPS images<br />
 NOTE: <i>Please use SVG format for a better vector support</i>.
 EOD;

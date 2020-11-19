@@ -250,14 +250,14 @@ class TCPDFBarcode
             $png->drawimage($bar);
 
             return $png;
-        } else {
-            ob_start();
-            imagepng($png);
-            $imagedata = ob_get_clean();
-            imagedestroy($png);
-
-            return $imagedata;
         }
+
+        ob_start();
+        imagepng($png);
+        $imagedata = ob_get_clean();
+        imagedestroy($png);
+
+        return $imagedata;
     }
 
     /**
@@ -1277,9 +1277,9 @@ class TCPDFBarcode
                                     }
 
                                     break;
-                                } else {
-                                    $startid = 104;
                                 }
+
+                                $startid = 104;
                             } elseif ($sequence[($key - 1)][0] != 'B') {
                                 if (($seq[2] == 1) and ($key > 0) and ($sequence[($key - 1)][0] == 'A') and (!isset($sequence[($key - 1)][3]))) {
                                     // single character shift
@@ -2356,7 +2356,7 @@ class TCPDFBarcode
         }
         $hex = array_reverse($hex);
 
-        return implode($hex);
+        return implode('', $hex);
     }
 
     /**

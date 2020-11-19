@@ -10,7 +10,9 @@ return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules([
         '@PhpCsFixer' => true,
+        '@Symfony:risky' => true,
         '@PHP71Migration' => true,
+        '@PHP71Migration:risky' => true,
 
         // required by PSR-12
         'concat_space' => [
@@ -51,25 +53,15 @@ return PhpCsFixer\Config::create()
         ],
 
         // disable too destructive formating for now
-        'escape_implicit_backslashes' => false,
-        'heredoc_to_nowdoc' => false,
-        'no_useless_else' => false,
-        'no_useless_return' => false,
-        'phpdoc_no_empty_return' => false,
-        'phpdoc_order' => false,
-        'phpdoc_var_annotation_correct_order' => false,
-        'protected_to_private' => false,
-        'simple_to_complex_string_variable' => false,
         'single_line_comment_style' => false,
-
-        // enable some safe rules from @PHP71Migration:risky
-        'pow_to_exponentiation' => true,
-        'is_null' => true,
-        'modernize_types_casting' => true,
-        'dir_constant' => true,
-        'combine_nested_dirname' => true,
-        'non_printable_character' => [
-            'use_escape_sequences_in_strings' => true,
-        ]
+        'random_api_migration' => [
+            'replacements' => [
+                'mt_rand' => 'random_int',
+                'rand' => 'random_int',
+            ],
+        ],
+        'declare_strict_types' => false,
+        'php_unit_set_up_tear_down_visibility' => true,
+        'array_indentation' => false,
     ])
     ->setFinder($finder);

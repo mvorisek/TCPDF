@@ -41,7 +41,7 @@
  * @version 1.0.000
  */
 
-if (php_sapi_name() != 'cli') {
+if (PHP_SAPI != 'cli') {
     echo 'You need to run this command from console.';
 
     exit(1);
@@ -61,7 +61,7 @@ foreach ($tcpdf_include_dirs as $tcpdf_include_path) {
  */
 function showHelp()
 {
-    $help = <<<EOD
+    $help = <<<'EOD'
 tcpdf_addfont - command line tool to convert fonts for the TCPDF library.
 
 Usage: tcpdf_addfont.php [ options ] -i fontfile[,fontfile]...

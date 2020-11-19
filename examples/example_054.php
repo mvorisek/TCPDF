@@ -77,7 +77,7 @@ $pdf->SetFont('helvetica', '', 10, '', false);
 $pdf->AddPage();
 
 // create some HTML content
-$html = <<<EOD
+$html = <<<'EOD'
 <h1>XHTML Form Example</h1>
 <form method="post" action="http://localhost/printvars.php" enctype="multipart/form-data">
 <label for="name">name:</label> <input type="text" name="name" value="" size="20" maxlength="30" /><br />

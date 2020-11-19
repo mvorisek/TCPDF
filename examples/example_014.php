@@ -162,7 +162,7 @@ $pdf->Button('reset', 30, 10, 'Reset', ['S' => 'ResetForm'], ['lineWidth' => 2, 
 $pdf->Button('submit', 30, 10, 'Submit', ['S' => 'SubmitForm', 'F' => 'http://localhost/printvars.php', 'Flags' => ['ExportFormat']], ['lineWidth' => 2, 'borderStyle' => 'beveled', 'fillColor' => [128, 196, 255], 'strokeColor' => [64, 64, 64]]);
 
 // Form validation functions
-$js = <<<EOD
+$js = <<<'EOD'
 function CheckField(name,message) {
 	var f = getField(name);
 	if(f.value == '') {

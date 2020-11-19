@@ -79,7 +79,7 @@ $pdf->SetFont('helvetica', '', 8);
 
 // -----------------------------------------------------------------------------
 
-$tbl = <<<EOD
+$tbl = <<<'EOD'
 <table cellspacing="0" cellpadding="1" border="1">
     <tr>
         <td rowspan="3">COL 1 - ROW 1<br />COLSPAN 3</td>
@@ -101,7 +101,7 @@ $pdf->writeHTML($tbl, true, false, false, false, '');
 
 // -----------------------------------------------------------------------------
 
-$tbl = <<<EOD
+$tbl = <<<'EOD'
 <table cellspacing="0" cellpadding="1" border="1">
     <tr>
         <td rowspan="3">COL 1 - ROW 1<br />COLSPAN 3<br />text line<br />text line<br />text line<br />text line<br />text line<br />text line</td>
@@ -123,7 +123,7 @@ $pdf->writeHTML($tbl, true, false, false, false, '');
 
 // -----------------------------------------------------------------------------
 
-$tbl = <<<EOD
+$tbl = <<<'EOD'
 <table cellspacing="0" cellpadding="1" border="1">
     <tr>
         <td rowspan="3">COL 1 - ROW 1<br />COLSPAN 3<br />text line<br />text line<br />text line<br />text line<br />text line<br />text line</td>
@@ -145,7 +145,7 @@ $pdf->writeHTML($tbl, true, false, false, false, '');
 
 // -----------------------------------------------------------------------------
 
-$tbl = <<<EOD
+$tbl = <<<'EOD'
 <table border="1">
 <tr>
 <th rowspan="3">Left column</th>
@@ -181,7 +181,7 @@ $pdf->writeHTML($tbl, true, false, false, false, '');
 // -----------------------------------------------------------------------------
 
 // Table with rowspans and THEAD
-$tbl = <<<EOD
+$tbl = <<<'EOD'
 <table border="1" cellpadding="2" cellspacing="2">
 <thead>
  <tr style="background-color:#FFFF00;color:#0000FF;">
@@ -250,7 +250,7 @@ $pdf->writeHTML($tbl, true, false, false, false, '');
 
 // NON-BREAKING TABLE (nobr="true")
 
-$tbl = <<<EOD
+$tbl = <<<'EOD'
 <table border="1" cellpadding="2" cellspacing="2" nobr="true">
  <tr>
   <th colspan="3" align="center">NON-BREAKING TABLE</th>
@@ -279,7 +279,7 @@ $pdf->writeHTML($tbl, true, false, false, false, '');
 
 // NON-BREAKING ROWS (nobr="true")
 
-$tbl = <<<EOD
+$tbl = <<<'EOD'
 <table border="1" cellpadding="2" cellspacing="2" align="center">
  <tr nobr="true">
   <th colspan="3">NON-BREAKING ROWS</th>

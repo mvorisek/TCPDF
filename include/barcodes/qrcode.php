@@ -1337,7 +1337,7 @@ class QRcode
         if (QR_FIND_FROM_RANDOM !== false) {
             $howManuOut = 8 - (QR_FIND_FROM_RANDOM % 9);
             for ($i = 0; $i < $howManuOut; ++$i) {
-                $remPos = rand(0, count($checked_masks) - 1);
+                $remPos = mt_rand(0, count($checked_masks) - 1);
                 unset($checked_masks[$remPos]);
                 $checked_masks = array_values($checked_masks);
             }
@@ -1486,9 +1486,9 @@ class QRcode
                 - $this->estimateBitsModeAn($q); // - 4 - la
                 if ($dif < 0) {
                     break;
-                } else {
-                    $p = $q;
                 }
+
+                $p = $q;
             } else {
                 ++$p;
             }
@@ -1549,9 +1549,9 @@ class QRcode
                 - $this->estimateBitsMode8($q); // - 4 - l8
                 if ($dif < 0) {
                     break;
-                } else {
-                    $p = $q;
                 }
+
+                $p = $q;
             } elseif ($mode == QR_MODE_AN) {
                 $q = $p;
                 while ($this->isalnumat($this->dataStr, $q)) {
@@ -1562,9 +1562,9 @@ class QRcode
                 - $this->estimateBitsMode8($q); // - 4 - l8
                 if ($dif < 0) {
                     break;
-                } else {
-                    $p = $q;
                 }
+
+                $p = $q;
             } else {
                 ++$p;
             }

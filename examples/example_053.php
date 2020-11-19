@@ -78,7 +78,7 @@ $text = 'This is an example of <strong>JavaScript</strong> usage on PDF document
 $pdf->writeHTML($text, true, 0, true, 0);
 
 // write some JavaScript code
-$js = <<<EOD
+$js = <<<'EOD'
 app.alert('JavaScript Popup Example', 3, 0, 'Welcome');
 var cResponse = app.response({
 	cQuestion: 'How are you today?',

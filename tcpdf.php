@@ -3459,9 +3459,9 @@ class TCPDF
         $this->_destroy(true);
         if (defined('K_TCPDF_THROW_EXCEPTION_ERROR') and !K_TCPDF_THROW_EXCEPTION_ERROR) {
             die('<strong>TCPDF ERROR: </strong>' . $msg);
-        } else {
-            throw new Exception('TCPDF ERROR: ' . $msg);
         }
+
+        throw new Exception('TCPDF ERROR: ' . $msg);
     }
 
     /**
@@ -4865,10 +4865,9 @@ class TCPDF
      * @param $family (string) Font family. The name can be chosen arbitrarily. If it is a standard family name, it will override the corresponding font.
      * @param $style (string) Font style. Possible values are (case insensitive):<ul><li>empty string: regular (default)</li><li>B: bold</li><li>I: italic</li><li>BI or IB: bold italic</li></ul>
      * @param $fontfile (string) The font definition file. By default, the name is built from the family and style, in lower case with no spaces.
+     * @param $subset (mixed) if true embedd only a subset of the font (stores only the information related to the used characters); if false embedd full font; if 'default' uses the default value set using setFontSubsetting(). This option is valid only for TrueTypeUnicode fonts. If you want to enable users to change the document, set this parameter to false. If you subset the font, the person who receives your PDF would need to have your same font in order to make changes to your PDF. The file size of the PDF would also be smaller because you are embedding only part of a font.
      *
      * @return array containing the font data, or false in case of error
-     *
-     * @param $subset (mixed) if true embedd only a subset of the font (stores only the information related to the used characters); if false embedd full font; if 'default' uses the default value set using setFontSubsetting(). This option is valid only for TrueTypeUnicode fonts. If you want to enable users to change the document, set this parameter to false. If you subset the font, the person who receives your PDF would need to have your same font in order to make changes to your PDF. The file size of the PDF would also be smaller because you are embedding only part of a font.
      * @public
      *
      * @since 1.5
@@ -7539,9 +7538,9 @@ class TCPDF
         [$this->x, $this->y] = $this->checkPageRegions(0, $this->x, $this->y);
         if ($this->rtl) {
             return $this->x - $this->lMargin;
-        } else {
-            return $this->w - $this->rMargin - $this->x;
         }
+
+        return $this->w - $this->rMargin - $this->x;
     }
 
     /**
@@ -8232,9 +8231,9 @@ class TCPDF
         //Get x position
         if ($this->rtl) {
             return $this->w - $this->x;
-        } else {
-            return $this->x;
         }
+
+        return $this->x;
     }
 
     /**
@@ -8487,7 +8486,7 @@ class TCPDF
                 if (ob_get_contents()) {
                     $this->Error('Some data has already been output, can\'t send PDF file');
                 }
-                if (php_sapi_name() != 'cli') {
+                if (PHP_SAPI != 'cli') {
                     // send output to a browser
                     header('Content-Type: application/pdf');
                     if (headers_sent()) {
@@ -8520,7 +8519,7 @@ class TCPDF
                 header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
                 header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
                 // force download dialog
-                if (strpos(php_sapi_name(), 'cgi') === false) {
+                if (strpos(PHP_SAPI, 'cgi') === false) {
                     header('Content-Type: application/force-download');
                     header('Content-Type: application/octet-stream', false);
                     header('Content-Type: application/download', false);
@@ -8568,7 +8567,7 @@ class TCPDF
                     header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Date in the past
                     header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
                     // force download dialog
-                    if (strpos(php_sapi_name(), 'cgi') === false) {
+                    if (strpos(PHP_SAPI, 'cgi') === false) {
                         header('Content-Type: application/force-download');
                         header('Content-Type: application/octet-stream', false);
                         header('Content-Type: application/download', false);
@@ -14838,7 +14837,7 @@ class TCPDF
         if (empty($page)) {
             $page = $this->page + 1;
         }
-        $this->newpagegroup[$page] = sizeof($this->newpagegroup) + 1;
+        $this->newpagegroup[$page] = count($this->newpagegroup) + 1;
     }
 
     /**
@@ -17770,13 +17769,13 @@ class TCPDF
         while (($offset < strlen($html)) and ($pos = strpos($html, '</pre>', $offset)) !== false) {
             $html_a = substr($html, 0, $offset);
             $html_b = substr($html, $offset, ($pos - $offset + 6));
-            while (preg_match("'<xre([^\>]*)>(.*?)\n(.*?)</pre>'si", $html_b)) {
+            while (preg_match("'<xre([^\\>]*)>(.*?)\n(.*?)</pre>'si", $html_b)) {
                 // preserve newlines on <pre> tag
-                $html_b = preg_replace("'<xre([^\>]*)>(.*?)\n(.*?)</pre>'si", '<xre\\1>\\2<br />\\3</pre>', $html_b);
+                $html_b = preg_replace("'<xre([^\\>]*)>(.*?)\n(.*?)</pre>'si", '<xre\\1>\\2<br />\\3</pre>', $html_b);
             }
-            while (preg_match("'<xre([^\>]*)>(.*?)" . $this->re_space['p'] . "(.*?)</pre>'" . $this->re_space['m'], $html_b)) {
+            while (preg_match("'<xre([^\\>]*)>(.*?)" . $this->re_space['p'] . "(.*?)</pre>'" . $this->re_space['m'], $html_b)) {
                 // preserve spaces on <pre> tag
-                $html_b = preg_replace("'<xre([^\>]*)>(.*?)" . $this->re_space['p'] . "(.*?)</pre>'" . $this->re_space['m'], '<xre\\1>\\2&nbsp;\\3</pre>', $html_b);
+                $html_b = preg_replace("'<xre([^\\>]*)>(.*?)" . $this->re_space['p'] . "(.*?)</pre>'" . $this->re_space['m'], '<xre\\1>\\2&nbsp;\\3</pre>', $html_b);
             }
             $html = $html_a . $html_b . substr($html, $pos + 6);
             $offset = strlen($html_a . $html_b);
@@ -17785,10 +17784,10 @@ class TCPDF
         while (($offset < strlen($html)) and ($pos = strpos($html, '</textarea>', $offset)) !== false) {
             $html_a = substr($html, 0, $offset);
             $html_b = substr($html, $offset, ($pos - $offset + 11));
-            while (preg_match("'<textarea([^\>]*)>(.*?)\n(.*?)</textarea>'si", $html_b)) {
+            while (preg_match("'<textarea([^\\>]*)>(.*?)\n(.*?)</textarea>'si", $html_b)) {
                 // preserve newlines on <textarea> tag
-                $html_b = preg_replace("'<textarea([^\>]*)>(.*?)\n(.*?)</textarea>'si", '<textarea\\1>\\2<TBR>\\3</textarea>', $html_b);
-                $html_b = preg_replace("'<textarea([^\>]*)>(.*?)[\"](.*?)</textarea>'si", "<textarea\\1>\\2''\\3</textarea>", $html_b);
+                $html_b = preg_replace("'<textarea([^\\>]*)>(.*?)\n(.*?)</textarea>'si", '<textarea\\1>\\2<TBR>\\3</textarea>', $html_b);
+                $html_b = preg_replace("'<textarea([^\\>]*)>(.*?)[\"](.*?)</textarea>'si", "<textarea\\1>\\2''\\3</textarea>", $html_b);
             }
             $html = $html_a . $html_b . substr($html, $pos + 11);
             $offset = strlen($html_a . $html_b);
@@ -17799,15 +17798,15 @@ class TCPDF
         while (($offset < strlen($html)) and ($pos = strpos($html, '</option>', $offset)) !== false) {
             $html_a = substr($html, 0, $offset);
             $html_b = substr($html, $offset, ($pos - $offset + 9));
-            while (preg_match("'<option([^\>]*)>(.*?)</option>'si", $html_b)) {
-                $html_b = preg_replace("'<option([\s]+)value=\"([^\"]*)\"([^\>]*)>(.*?)</option>'si", '\\2#!TaB!#\\4#!NwL!#', $html_b);
-                $html_b = preg_replace("'<option([^\>]*)>(.*?)</option>'si", '\\2#!NwL!#', $html_b);
+            while (preg_match("'<option([^\\>]*)>(.*?)</option>'si", $html_b)) {
+                $html_b = preg_replace("'<option([\\s]+)value=\"([^\"]*)\"([^\\>]*)>(.*?)</option>'si", '\\2#!TaB!#\\4#!NwL!#', $html_b);
+                $html_b = preg_replace("'<option([^\\>]*)>(.*?)</option>'si", '\\2#!NwL!#', $html_b);
             }
             $html = $html_a . $html_b . substr($html, $pos + 9);
             $offset = strlen($html_a . $html_b);
         }
         if (preg_match("'</select'si", $html)) {
-            $html = preg_replace("'<select([^\>]*)>'si", '<select\\1 opt="', $html);
+            $html = preg_replace("'<select([^\\>]*)>'si", '<select\\1 opt="', $html);
             $html = preg_replace("'#!NwL!#</select>'si", '" />', $html);
         }
         $html = str_replace("\n", ' ', $html);
@@ -19399,7 +19398,7 @@ class TCPDF
                                         $spacewidth /= ($this->font_stretching / 100);
                                     }
                                     $rs = sprintf('%F Tw', $spacewidth);
-                                    $pmid = preg_replace("/\[\(/x", $rs . ' [(', $pmid);
+                                    $pmid = preg_replace('/\\[\\(/x', $rs . ' [(', $pmid);
                                     if ($this->inxobj) {
                                         // we are inside an XObject template
                                         $this->xobjects[$this->xobjid]['outdata'] = $pstart . "\n" . $pmid . "\nBT 0 Tw ET\n" . $pend;
@@ -22598,7 +22597,7 @@ class TCPDF
                     $newpage = $pagenum;
                 }
                 --$newpage;
-                $newjs = "this.addField(\'" . $pamatch[1][$pk] . "\',\'" . $pamatch[2][$pk] . "\'," . $newpage;
+                $newjs = "this.addField(\\'" . $pamatch[1][$pk] . "\\',\\'" . $pamatch[2][$pk] . "\\'," . $newpage;
                 $this->javascript = str_replace($pmatch, $newjs, $this->javascript);
             }
             unset($pamatch);
@@ -22792,7 +22791,7 @@ class TCPDF
                     $newpage = $pagenum;
                 }
                 --$newpage;
-                $newjs = "this.addField(\'" . $pamatch[1][$pk] . "\',\'" . $pamatch[2][$pk] . "\'," . $newpage;
+                $newjs = "this.addField(\\'" . $pamatch[1][$pk] . "\\',\\'" . $pamatch[2][$pk] . "\\'," . $newpage;
                 $this->javascript = str_replace($pmatch, $newjs, $this->javascript);
             }
             unset($pamatch);
@@ -22851,7 +22850,7 @@ class TCPDF
         }
         if (isset($this->newpagegroup[$page])) {
             // start a new group
-            $this->newpagegroup[$this->page] = sizeof($this->newpagegroup) + 1;
+            $this->newpagegroup[$this->page] = count($this->newpagegroup) + 1;
             $this->currpagegroup = $this->newpagegroup[$this->page];
             $this->pagegroups[$this->currpagegroup] = 1;
         } elseif (isset($this->currpagegroup) and ($this->currpagegroup > 0)) {
@@ -25431,7 +25430,7 @@ class TCPDF
         if (strpos($name, ':') !== false) {
             $parts = explode(':', $name);
 
-            return $parts[(sizeof($parts) - 1)];
+            return $parts[(count($parts) - 1)];
         }
 
         return $name;
@@ -25578,7 +25577,7 @@ class TCPDF
                 $tmp = [];
                 preg_match_all('/[0-9]+/', $attribs['viewBox'], $tmp);
                 $tmp = $tmp[0];
-                if (sizeof($tmp) == 4) {
+                if (count($tmp) == 4) {
                     $vx = $tmp[0];
                     $vy = $tmp[1];
                     $vw = $tmp[2];
@@ -25594,7 +25593,7 @@ class TCPDF
                         } else {
                             preg_match_all('/[a-zA-Z]+/', $attribs['preserveAspectRatio'], $tmp);
                             $tmp = $tmp[0];
-                            if ((sizeof($tmp) == 2) and (strlen($tmp[0]) == 8) and (in_array($tmp[1], ['meet', 'slice', 'none']))) {
+                            if ((count($tmp) == 2) and (strlen($tmp[0]) == 8) and (in_array($tmp[1], ['meet', 'slice', 'none']))) {
                                 $aspectX = substr($tmp[0], 0, 4);
                                 $aspectY = substr($tmp[0], 4, 4);
                                 $fit = $tmp[1];
@@ -26135,20 +26134,20 @@ class TCPDF
                         if (isset($child_element['attribs']['id']) and ($child_element['name'] == $name)) {
                             $this->svgdefs[$last_svgdefs_id]['attribs']['child_elements'][$child_element['attribs']['id'] . '_CLOSE'] = ['name' => $name, 'attribs' => ['closing_tag' => true, 'content' => $this->svgtext]];
 
-                                return;
-                            }
-                        }
-                        if ($this->svgdefs[$last_svgdefs_id]['name'] == $name) {
-                            $this->svgdefs[$last_svgdefs_id]['attribs']['child_elements'][$last_svgdefs_id . '_CLOSE'] = ['name' => $name, 'attribs' => ['closing_tag' => true, 'content' => $this->svgtext]];
-
                             return;
                         }
                     }
-                }
+                    if ($this->svgdefs[$last_svgdefs_id]['name'] == $name) {
+                        $this->svgdefs[$last_svgdefs_id]['attribs']['child_elements'][$last_svgdefs_id . '_CLOSE'] = ['name' => $name, 'attribs' => ['closing_tag' => true, 'content' => $this->svgtext]];
 
-                return;
+                        return;
+                    }
+                }
             }
-            switch ($name) {
+
+            return;
+        }
+        switch ($name) {
                 case 'defs':
             $this->svgdefsmode = false;
 
@@ -26238,7 +26237,7 @@ class TCPDF
      */
     protected function segSVGContentHandler($parser, $data)
     {
-            $this->svgtext .= $data;
+        $this->svgtext .= $data;
     }
 
     // --- END SVG METHODS -----------------------------------------------------

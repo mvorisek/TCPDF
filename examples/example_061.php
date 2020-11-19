@@ -85,7 +85,7 @@ $pdf->AddPage();
  */
 
 // define some HTML content with style
-$html = <<<EOF
+$html = <<<'EOF'
 <!-- EXAMPLE OF CSS STYLE -->
 <style>
 	h1 {
