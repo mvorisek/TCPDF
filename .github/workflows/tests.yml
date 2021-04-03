@@ -70,6 +70,8 @@ jobs:
                   path: ~/.composer/cache/
                   key: composer-cache
             - name: Install phpstan
-              run: composer require phpstan/phpstan
+              run: composer require --dev phpstan/phpstan
+            - name: Install doctum
+              run: composer require --dev code-lts/doctum
             - name: Analyse files
               run: ./vendor/bin/phpstan --memory-limit=2G

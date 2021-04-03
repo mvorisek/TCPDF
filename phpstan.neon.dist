@@ -1,4 +1,6 @@
 parameters:
+    parallel:
+        processTimeout: 300.0
     level: 1
     paths:
         - ./
@@ -11,3 +13,4 @@ parameters:
 
     ignoreErrors:
         - '~^Variable \$\w+ might not be defined\.$~'
+        - '~^Constructor of class TCPDF has an unused parameter \$diskcache\.$~'
