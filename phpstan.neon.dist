@@ -8,9 +8,6 @@ parameters:
         - vendor/
         - fonts/
 
-    # TODO review once we drop PHP 7.x support
-    treatPhpDocTypesAsCertain: false
-
     ignoreErrors:
         - '~^Variable \$\w+ might not be defined\.$~'
         - '~^Constructor of class TCPDF has an unused parameter \$diskcache\.$~'
