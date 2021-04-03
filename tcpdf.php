@@ -7092,8 +7092,6 @@ class TCPDF {
 			} elseif ($type == 'jpg') {
 				$type = 'jpeg';
 			}
-			$mqr = TCPDF_STATIC::get_mqr();
-			TCPDF_STATIC::set_mqr(false);
 			// Specific image handlers (defined on TCPDF_IMAGES CLASS)
 			$mtd = '_parse'.$type;
 			// GD image handler function
@@ -7195,7 +7193,6 @@ class TCPDF {
 				// unable to process image
 				return;
 			}
-			TCPDF_STATIC::set_mqr($mqr);
 			if ($ismask) {
 				// force grayscale
 				$info['cs'] = 'DeviceGray';
@@ -8855,8 +8852,6 @@ class TCPDF {
 			$this->_newobj();
 			$this->_out('<< /Type /Encoding /BaseEncoding /WinAnsiEncoding /Differences ['.$diff.'] >>'."\n".'endobj');
 		}
-		$mqr = TCPDF_STATIC::get_mqr();
-		TCPDF_STATIC::set_mqr(false);
 		foreach ($this->FontFiles as $file => $info) {
 			// search and get font file to embedd
 			$fontfile = TCPDF_FONTS::getFontFullPath($file, $info['fontdir']);
@@ -8910,7 +8905,6 @@ class TCPDF {
 				$this->_out($out);
 			}
 		}
-		TCPDF_STATIC::set_mqr($mqr);
 		foreach ($this->fontkeys as $k) {
 			//Font objects
 			$font = $this->getFontBuffer($k);
